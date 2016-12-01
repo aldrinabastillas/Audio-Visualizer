@@ -4,30 +4,38 @@ using System.Collections.Generic;
 
 public class Visualizer : MonoBehaviour
 {
+    #region Public Parameters
     public SpectrumController prefab;
     public float maxHeight = 1024;
     public int radius = 32;
+    public int maxItems = 4000;
+    #endregion
 
-    //List<Vector2> generationList = new List<Vector2>();
-    List<Vector3> generationList = new List<Vector3>();
+    #region Private Fields
+    //for the Lorenz System
+    //see https://en.wikipedia.org/wiki/Lorenz_system
 
+    //starting system state
     float x = 0.01f;
     float y = 1.0f;
     float z = 1.05f;
 
-    float a = 10;
-    float b = 28;
-    float c = (float)8.0 / 3.0f;
+    //system parameters
+    float sigma = 10;
+    float rho = 28;
+    float beta = (float)8.0 / 3.0f;
+    #endregion
 
     void Start()
     {
-        float dt = 0.01f;
+        float dt = 0.01f;  //time step
         float dx = 0, dy = 0, dz = 0;
 
-        for(int i = 0; i < 4000; i++) { 
-            dx = (a * (y - x)) * dt;
-            dy = (x * (b - z) - y) * dt;
-            dz = (x * y - c * z) * dt;
+        for (int i = 0; i < maxItems; i++)
+        {
+            dx = (sigma * (y - x)) * dt;
+            dy = (x * (rho - z) - y) * dt;
+            dz = (x * y - beta * z) * dt;
 
             x = x + dx;
             y = y + dy;
@@ -35,64 +43,25 @@ public class Visualizer : MonoBehaviour
 
             var vector = new Vector3(x, y, z);
             GenerateTile(vector);
-            generationList.Add(vector);
         }
 
-
-
-        //var radiusSq = radius * radius;
-        //for (int y = -radius; y < radius; y++)
-        //{
-        //    for (int x = -radius; x < radius; x++)
-        //    {
-        //        var p = new Vector2(x, y);
-        //        if (p.sqrMagnitude < radiusSq) //creates a circle of blocks
-        //        {
-        //            GenerateTile(p);
-        //            //generationList.Add(p);
-        //        }
-        //    }
-        //}
-
-        //StartCoroutine("Generate");
     }
 
     /// <summary>
-    /// Called by StartCoroutine in Start()
-    /// </summary>
-    //void Generate()
-    //{
-    //    Vector2 currentVector;
-
-    //    //randomly iterates through list of blocks made in Start() 
-    //    // and generates a tile
-    //    while (generationList.Count != 0)
-    //    {
-    //        //for (var i = 0; i < 10; ++i) {
-    //        currentVector = generationList[Random.Range(0, generationList.Count)];
-    //        GenerateTile(currentVector);
-    //        generationList.Remove(currentVector);
-    //    }
-    //}
-
-    /// <summary>
-    /// Called by Generate()
+    /// Called for each vector created in Start()
+    /// to create a new prefab object in that location
     /// </summary>
     /// <param name="vc2"></param>
     //void GenerateTile(Vector2 vc2)
-    void GenerateTile(Vector3 pos)
+    void GenerateTile(Vector3 vector)
     {
-        // change the vc2 to vc3 and move it to the center
-        //Vector3 pos = new Vector3(vc2.x, -maxHeight, vc2.y);
-        //Vector3 pos = new Vector3(vc2.x, 0, vc2.y);
-        var dist = pos.magnitude;
-        //var dist = vc2.magnitude;
-
-        var spawnedTile = (SpectrumController)Instantiate(prefab, pos, prefab.transform.rotation);
+        var spawnedTile = (SpectrumController)Instantiate(prefab, vector, prefab.transform.rotation);
         //spawnedTile.maxHeight = (1+dist) * maxHeight;
         spawnedTile.maxHeight = maxHeight;
         //spawnedTile.spectrumIndex = (int)(Mathf.Round(dist/(float)radius * AudioManager.SampleCount));
-        spawnedTile.spectrumIndex = (int)(Mathf.Round(dist));
+
+        var length = vector.magnitude;
+        spawnedTile.spectrumIndex = (int)(Mathf.Round(length));
     }
 
     /// <summary>
