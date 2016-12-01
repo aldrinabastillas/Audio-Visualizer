@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class Visualizer : MonoBehaviour
 {
-    #region Public Parameters
+    #region Public Fields
     public SpectrumController prefab;
-    public float maxHeight = 1024;
-    public int radius = 32;
-    public int maxItems = 4000;
+    public float maxHeight; //currently 8000, previous 1024
+    public int radius; //32, used in OnDrawGizmo(), not called yet
+    public int maxItems; //currently 3000, previously 4000
     #endregion
 
     #region Private Fields
