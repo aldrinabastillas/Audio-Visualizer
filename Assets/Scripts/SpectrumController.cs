@@ -26,7 +26,7 @@ namespace Assets.Scripts
         void Update()
         {
             UpdateHeight();
-            UpdateColor();
+            //UpdateColor();
         }
         #endregion
 
@@ -56,7 +56,6 @@ namespace Assets.Scripts
                 switchNum++;
                 lastUpdateFrame += framePerTransition;
             }
-
         }
         #endregion
     }
