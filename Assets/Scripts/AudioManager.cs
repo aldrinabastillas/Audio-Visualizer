@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Linq;
 
 namespace Assets.Scripts
 { 
@@ -7,41 +7,45 @@ namespace Assets.Scripts
     public class AudioManager : MonoBehaviour
     {
         #region Public Field Parameters
-        // feel free to change the sampling (1024s) to 512s or 2048s.
-        //public const int SampleCount = 2048;
-        public int SampleCount = 1024;
+        //can change the sampling rate to 512s, 1024s, or 2048s.
+        public static int SampleCount = 1024;
         #endregion
 
-        #region Public Static Fields
-        public static float[] spectrum;
-        //public static float[] spectrum = new float[SampleCount];
-        //public static float[] spectrum2= new float[SampleCount];ion
+        #region Properties 
+        internal static float min { get; private set; } //min value of all points in spectrum array
+        internal static float max { get; private set; } 
+        private AudioSource source { get; set; }
+        private static float[] spectrum { get; set; }
         #endregion
 
-        #region Private Fields
-        AudioSource source;
-        #endregion
-
-        #region Private Methods
+        #region Event Functions
         /// <summary>
         /// Initializes the audio source object 
         /// and array to store audio spectrum values
         /// </summary>
-        void Start()
+        private void Start()
         {
             source = GetComponent<AudioSource>();
             spectrum = new float[SampleCount];
         }
 
         /// <summary>
-        /// Gets the current audio spectrum value
+        /// Gets the current audio spectrum values 
+        /// for the specified window size
         /// </summary>
-        void Update()
+        private void Update()
         {
-            source.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
-            //source.GetSpectrumData(spectrum, 0, FFTWindow.Hamming);
-            //source.GetOutputData(spectrum, 0);
-            //source.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
+            //source.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
+            source.GetSpectrumData(spectrum, 0, FFTWindow.Hamming);
+            min = spectrum.Min(m => m);
+            max = spectrum.Max(m => m);
+        }
+        #endregion
+
+        #region Methods
+        public static float GetSpectrumValue(int index)
+        {
+            return spectrum[index];
         }
         #endregion
     }

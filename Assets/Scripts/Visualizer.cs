@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Linq;
-using System.Collections.Generic;
-using Assets.Patterns;
+﻿using Assets.Patterns;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -9,16 +7,15 @@ namespace Assets.Scripts
     {
         #region Public Fields
         public SpectrumController prefab;
-        public float maxHeight; //currently 8000, previous 1024
-        public int radius; //32, used in OnDrawGizmo(), not called yet
-        public int maxItems; //currently 3000, previously 4000
+        public int maxHeight;
+        public int maxItems; 
         #endregion
 
-        #region Private Fields
-        private GameObject folder;
+        #region Properties
+        private GameObject folder { get; set; }
         #endregion
 
-        #region Event Methods
+        #region Event Functions
         void Start()
         {
             //see https://en.wikipedia.org/wiki/Lorenz_system
@@ -45,42 +42,30 @@ namespace Assets.Scripts
             //Generate prefab at each point
             foreach(Vector3 point in lorenz)
             {
-                GeneratePrefab(point);
+                GeneratePrefab(point, maxHeight);
+                GeneratePrefab(point, -1 * maxHeight);
             }
-        }
-
-        /// <summary>
-        /// Isn't currently getting called
-        /// https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnDrawGizmos.html
-        /// </summary>
-        void OnDrawGizmos()
-        {
-            var c = Color.yellow;
-            c.a = 0.2f;
-            Gizmos.color = c;
-
-            Gizmos.DrawWireSphere(transform.position, radius);
         }
         #endregion
 
-        #region Private Methods
+        #region Methods
         /// <summary>
-        /// Called for each vector created in Start()
-        /// to create a new prefab object in that location
+        /// Called for each vector created in Start() to create a new prefab object in that location
         /// </summary>
-        /// <param name="vc2"></param>
-        void GeneratePrefab(Vector3 vector)
+        /// <param name="vector"></param>
+        void GeneratePrefab(Vector3 vector, int height)
         {
-            var spawnedTile = (SpectrumController)Instantiate(prefab, vector, prefab.transform.rotation);
-            //spawnedTile.maxHeight = (1+dist) * maxHeight;
-            spawnedTile.maxHeight = maxHeight;
-            //spawnedTile.spectrumIndex = (int)(Mathf.Round(dist/(float)radius * AudioManager.SampleCount));
+            var prefab = (SpectrumController)Instantiate(this.prefab, vector, this.prefab.transform.rotation);
+            prefab.maxHeight = height;
 
             var length = vector.magnitude;
-            spawnedTile.spectrumIndex = (int)(Mathf.Round(length));
+            prefab.spectrumIndex = (int)(Mathf.Round(length));
+            prefab.GetComponent<Renderer>().material.color = new Color(0, length, length, 0.5f);
+            //prefab.spectrumIndex = (int)(Mathf.Round(dist/(float)radius * AudioManager.SampleCount));
+            //prefab.spectrumIndex = (int)Vector3.Distance(new Vector3(.01f, 1, 1.05f), vector);
 
             //file new prefab in folder
-            spawnedTile.transform.SetParent(folder.transform);
+            prefab.transform.SetParent(folder.transform);
         }
         #endregion 
     }

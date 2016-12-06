@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Assets.Scripts
 {
@@ -15,6 +14,7 @@ namespace Assets.Scripts
         {
             var angle = 360 * rotationsPerSecond * Time.deltaTime;
             transform.Rotate(axis, angle);
+            //transform.Translate
         }
         #endregion
     }

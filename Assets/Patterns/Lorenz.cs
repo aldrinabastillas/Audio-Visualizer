@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Assets.Patterns
@@ -11,7 +7,13 @@ namespace Assets.Patterns
     public class Lorenz : IEnumerable
     {
         #region Private Properties
-        private Vector3[] points { get; set; }
+        public Vector3[] points { get; set; }
+        //public List<Vector3> points { get; set; }
+        //public int numPoints { get; set; }
+        public int Count
+        {
+            get { return points.Length; }
+        }
 
         //starting system state
         private float x { get; set; }
@@ -29,6 +31,7 @@ namespace Assets.Patterns
         public Lorenz(int numPoints)
         {
             points = new Vector3[numPoints];
+            //this.numPoints = numPoints;
         }
         #endregion
 
@@ -68,8 +71,9 @@ namespace Assets.Patterns
         {
             float dx = 0, dy = 0, dz = 0;
 
-            for (int i = 0; i < points.Length; i++)
-            {
+            //for (int i = 0; i < numPoints * 2; i++)
+                for (int i = 0; i < points.Length; i++)
+                {
                 dx = (sigma * (y - x)) * dt;
                 dy = (x * (rho - z) - y) * dt;
                 dz = (x * y - beta * z) * dt;
@@ -78,7 +82,11 @@ namespace Assets.Patterns
                 y = y + dy;
                 z = z + dz;
 
-                points[i] = new Vector3(x, y, z);
+                //if(i % 2 == 0)
+                //{
+                    points[i] = new Vector3(x, y, z);
+                    //points.Add(new Vector3(x, y, z));
+                //}
             }
         }
 
@@ -90,6 +98,20 @@ namespace Assets.Patterns
         {
             return points.GetEnumerator();
         }
+        
+        /// <summary>
+        /// Indexer into the array of points
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public Vector3 this[int i]
+        {
+            get {
+                return points[i];
+            }
+        }
+
         #endregion
     }
 }
+ 
