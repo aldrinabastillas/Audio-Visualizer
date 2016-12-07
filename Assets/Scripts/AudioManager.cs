@@ -6,9 +6,9 @@ namespace Assets.Scripts
     [RequireComponent(typeof(AudioSource))]
     public class AudioManager : MonoBehaviour
     {
-        #region Public Field Parameters
-        //can change the sampling rate to 512s, 1024s, or 2048s.
-        public static int SampleCount = 1024;
+        #region Public Fields
+        //example sampling rates: 512s, 1024s, or 2048s.
+        public int SampleCount;
         #endregion
 
         #region Properties 
@@ -37,8 +37,8 @@ namespace Assets.Scripts
         {
             //source.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
             source.GetSpectrumData(spectrum, 0, FFTWindow.Hamming);
-            min = spectrum.Min(m => m);
-            max = spectrum.Max(m => m);
+            //min = spectrum.Min(m => m);
+            //max = spectrum.Max(m => m);
         }
         #endregion
 
@@ -47,6 +47,7 @@ namespace Assets.Scripts
         {
             return spectrum[index];
         }
+
         #endregion
     }
 

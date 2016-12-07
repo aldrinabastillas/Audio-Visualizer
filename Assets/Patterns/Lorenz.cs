@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace Assets.Patterns
 {
-    //see https://en.wikipedia.org/wiki/Lorenz_system
+    /// <summary>
+    /// Creates an array of vectors in the shape of a Lorenz system
+    /// see https://en.wikipedia.org/wiki/Lorenz_system
+    /// </summary>
     public class Lorenz : IEnumerable
     {
         #region Private Properties
         public Vector3[] points { get; set; }
-        //public List<Vector3> points { get; set; }
-        //public int numPoints { get; set; }
         public int Count
         {
             get { return points.Length; }
@@ -31,7 +32,6 @@ namespace Assets.Patterns
         public Lorenz(int numPoints)
         {
             points = new Vector3[numPoints];
-            //this.numPoints = numPoints;
         }
         #endregion
 
@@ -50,7 +50,7 @@ namespace Assets.Patterns
         }
 
         /// <summary>
-        /// 
+        /// Sets the system parameters
         /// </summary>
         /// <param name="sigma"></param>
         /// <param name="rho"></param>
@@ -65,15 +65,14 @@ namespace Assets.Patterns
         }
 
         /// <summary>
-        /// Adds to Vector3[] points for each coordinate
+        /// Adds a vector to the points array for each coordinate
         /// </summary>
         public void AddPoints()
         {
             float dx = 0, dy = 0, dz = 0;
 
-            //for (int i = 0; i < numPoints * 2; i++)
-                for (int i = 0; i < points.Length; i++)
-                {
+            for (int i = 0; i < points.Length; i++)
+            {
                 dx = (sigma * (y - x)) * dt;
                 dy = (x * (rho - z) - y) * dt;
                 dz = (x * y - beta * z) * dt;
@@ -82,11 +81,7 @@ namespace Assets.Patterns
                 y = y + dy;
                 z = z + dz;
 
-                //if(i % 2 == 0)
-                //{
-                    points[i] = new Vector3(x, y, z);
-                    //points.Add(new Vector3(x, y, z));
-                //}
+                points[i] = new Vector3(x, y, z);
             }
         }
 
@@ -98,7 +93,7 @@ namespace Assets.Patterns
         {
             return points.GetEnumerator();
         }
-        
+
         /// <summary>
         /// Indexer into the array of points
         /// </summary>
@@ -106,7 +101,8 @@ namespace Assets.Patterns
         /// <returns></returns>
         public Vector3 this[int i]
         {
-            get {
+            get
+            {
                 return points[i];
             }
         }
@@ -114,4 +110,3 @@ namespace Assets.Patterns
         #endregion
     }
 }
- 

@@ -3,24 +3,23 @@
 namespace Assets.Scripts
 {
     /// <summary>
-    /// Behaviors for each prefab, like update size to music
+    /// Behaviors for each prefab: update size and color to music
     /// </summary>
     public class SpectrumController : MonoBehaviour
     {
         #region Public Fields
-        public float responseSpeed; //set to 20 
+        public float responseSpeed;
         #endregion
-
-        #region Internal Fields
-        //Used in Visualizer.GeneratePrefab()
-        internal float maxHeight;
-        internal int spectrumIndex;
-        #endregion  
 
         #region Private Fields
         private Vector3 startScale;
-        private Color startColor;
-        private MeshFilter startMesh;
+        #endregion
+
+        #region Properties
+        internal float maxHeight { get; set; }
+        internal int spectrumIndex { get; set; }
+        private Color startColor { get; set; }
+        private MeshFilter startMesh { get; set; }
         #endregion
 
         #region Event Functions
@@ -33,8 +32,9 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            //scale to max value in the current spectrum window and given max height of prefab
+            //scale current spectrum window and given maxHeight of prefab
             var desiredScale = 1 + AudioManager.GetSpectrumValue(spectrumIndex) * maxHeight;
+            //var desiredScale = AudioManager.GetSpectrumValue(spectrumIndex) / AudioManager.max * maxHeight;
 
             if (startMesh.name.Contains("Cylinder"))
             {

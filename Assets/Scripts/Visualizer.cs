@@ -20,8 +20,8 @@ namespace Assets.Scripts
         {
             //see https://en.wikipedia.org/wiki/Lorenz_system
             Lorenz lorenz = new Lorenz(maxItems);
-            lorenz.SetState(0.01f, 1.0f, 1.05f);
-            lorenz.SetParameters(10, 28, 8 / 3, 0.01f);
+            lorenz.SetState(1f, 1f, 1f);
+            lorenz.SetParameters(10, 28, 8/3, 0.01f);
             lorenz.AddPoints();
 
             //Create top folder for each prefab
@@ -29,7 +29,7 @@ namespace Assets.Scripts
             folder.transform.SetParent(transform);
 
             //Generate a prefab facing up and down at each point
-            foreach(Vector3 point in lorenz)
+            foreach (Vector3 point in lorenz)
             {
                 GeneratePrefab(point, maxHeight);
                 GeneratePrefab(point, -1 * maxHeight);
@@ -47,9 +47,11 @@ namespace Assets.Scripts
             var prefab = (SpectrumController)Instantiate(this.prefab, vector, this.prefab.transform.rotation);
             prefab.maxHeight = height;
 
-            var length = vector.magnitude;
             //set location in audio spectrum window based on vector magnitude
+            var length = vector.magnitude;
             prefab.spectrumIndex = (int)(Mathf.Round(length));
+
+            //prefab.spectrumIndex = count;
             //prefab.spectrumIndex = (int)(Mathf.Round(dist/(float)radius * AudioManager.SampleCount));
             //prefab.spectrumIndex = (int)Vector3.Distance(new Vector3(.01f, 1, 1.05f), vector);
 
