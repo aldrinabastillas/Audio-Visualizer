@@ -19,27 +19,16 @@ namespace Assets.Scripts
         void Start()
         {
             //see https://en.wikipedia.org/wiki/Lorenz_system
-            //starting system state
-            float x = 0.01f;
-            float y = 1.0f;
-            float z = 1.05f;
-
-            //system parameters
-            float sigma = 10;
-            float rho = 28;
-            float beta = (float)8.0 / 3.0f;
-            float dt = 0.01f;
-
             Lorenz lorenz = new Lorenz(maxItems);
-            lorenz.SetState(x, y, z);
-            lorenz.SetParameters(sigma, rho, beta, dt);
+            lorenz.SetState(0.01f, 1.0f, 1.05f);
+            lorenz.SetParameters(10, 28, 8 / 3, 0.01f);
             lorenz.AddPoints();
 
             //Create top folder for each prefab
             folder = new GameObject("Lorenz Prefabs (" + maxItems + ")");
             folder.transform.SetParent(transform);
 
-            //Generate prefab at each point
+            //Generate a prefab facing up and down at each point
             foreach(Vector3 point in lorenz)
             {
                 GeneratePrefab(point, maxHeight);
@@ -59,11 +48,14 @@ namespace Assets.Scripts
             prefab.maxHeight = height;
 
             var length = vector.magnitude;
+            //set location in audio spectrum window based on vector magnitude
             prefab.spectrumIndex = (int)(Mathf.Round(length));
-            prefab.GetComponent<Renderer>().material.color = new Color(0, length, length, 0.5f);
             //prefab.spectrumIndex = (int)(Mathf.Round(dist/(float)radius * AudioManager.SampleCount));
             //prefab.spectrumIndex = (int)Vector3.Distance(new Vector3(.01f, 1, 1.05f), vector);
 
+            //set starting color based on vector magnitude
+            prefab.GetComponent<Renderer>().material.color = new Color(0, length % 1, length % 1, 0.5f);
+            
             //file new prefab in folder
             prefab.transform.SetParent(folder.transform);
         }

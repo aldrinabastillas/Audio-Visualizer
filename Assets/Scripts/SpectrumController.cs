@@ -20,6 +20,7 @@ namespace Assets.Scripts
         #region Private Fields
         private Vector3 startScale;
         private Color startColor;
+        private MeshFilter startMesh;
         #endregion
 
         #region Event Functions
@@ -27,23 +28,36 @@ namespace Assets.Scripts
         {
             startScale = transform.localScale;
             startColor = GetComponent<Renderer>().material.color;
+            startMesh = GetComponent<MeshFilter>();
         }
 
         private void Update()
         {
             //scale to max value in the current spectrum window and given max height of prefab
             var desiredScale = 1 + AudioManager.GetSpectrumValue(spectrumIndex) * maxHeight;
-            //UpdateSize(desiredScale);
-            UpdateHeight(desiredScale);
+
+            if (startMesh.name.Contains("Cylinder"))
+            {
+                UpdateCylinderHeight(desiredScale);
+            }
+            else if (startMesh.name.Contains("Cube"))
+            {
+                UpdateCubeHeight(desiredScale);
+            }
+            else
+            {
+                UpdateSize(desiredScale);
+            }
+
             UpdateColor(desiredScale);
         }
         #endregion
 
         #region Methods
         /// <summary>
-        /// Update height for blocks
+        /// Update height for cubes in z dimension
         /// </summary>
-        private void UpdateHeight(float scale)
+        private void UpdateCubeHeight(float scale)
         {
             //update current height to height in AudioManager
             startScale.z = Mathf.Lerp(transform.localScale.z, scale, Time.deltaTime * responseSpeed);
@@ -51,7 +65,17 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// Update size in all 3 dimensions for sphere 
+        /// Update height for cylinders in y dimension
+        /// </summary>
+        private void UpdateCylinderHeight(float scale)
+        {
+            //update current height to height in AudioManager
+            startScale.y = Mathf.Lerp(transform.localScale.y, scale, Time.deltaTime * responseSpeed);
+            transform.localScale = startScale;
+        }
+
+        /// <summary>
+        /// Update size in all 3 dimensions
         /// </summary>
         private void UpdateSize(float scale)
         {
@@ -59,7 +83,7 @@ namespace Assets.Scripts
         }
 
         /// <summary>
-        /// Playing around with color code
+        /// Interpolate color from starting color to shade of blue
         /// </summary>
         private void UpdateColor(float scale)
         {

@@ -30,3 +30,6 @@ sysinfo.txt
 *.unitypackage
 
 ProjectSettings/ProjectVersion.txt
+
+# Folder for executable data
+AudioVisualizer_Data/
