@@ -1,31 +1,36 @@
-## Simple Audio Visualizer for Unity
+# Lorenz System Audio Visualizer in Unity3D
 
-**DISCLAIMER: Credit goes mostly to Hypnotoad09 ([original source code here](https://www.reddit.com/r/Unity3D/comments/35dm0n/check_out_this_cool_3d_audio_visualizer_ive_just/))**
+## Overview
 
-## Changes to the original
+## Assets
+### Scripts
+*[Visualizer.cs](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Scripts/Visualizer.cs):
 
-* Converted from UnityScript to C#, using [http://www.m2h.nl/files/js_to_c.php](this online converter) and some manual adjustments
-* Made the result circular, and improved performance
-* Rotating camera
+*[AudioManager.cs](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Scripts/AudioManager.cs):
+Saves audio spectrum data to an array with a size of the given sampling rate. 
+Samples are taken using a [Hamming Window](https://en.wikipedia.org/wiki/Window_function#Hamming_window).
 
-The final result is somewhere in between Hypnotoad09's first and second versions (see videos below).
+*[SpectrumController.cs](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Scripts/SpectrumController.cs):
+
+*[CameraRotation.cs](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Scripts/CameraRotation.cs):
+
+### Patterns
+*[Lorenz.cs](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Patterns/Lorenz.cs)
+
+### Other Assets
 
 
 ## Videos
-
-### Hypnotoad09's first version
-
-[![Hypnotoad09's advanced version](https://img.youtube.com/vi/dbVz0tYfGcw/0.jpg)](https://www.youtube.com/watch?v=dbVz0tYfGcw)
-
-
-### Hypnotoad09's advanced version
-
-[![Hypnotoad09's first version](https://img.youtube.com/vi/vQFNL4nNL_I/0.jpg)](https://www.youtube.com/watch?v=vQFNL4nNL_I)
+ 
+* [My Version](https://www.youtube.com/watch?v=Rgu4TiTfQYs)
+* [Hypnotoad09's second version](https://www.youtube.com/watch?v=vQFNL4nNL_I)
+* [Hypnotoad09's first version](https://www.youtube.com/watch?v=dbVz0tYfGcw)
 
 
 ## References
 
-* [Reddit: Hypnotoad09's priginal post](https://www.reddit.com/r/Unity3D/comments/35dm0n/check_out_this_cool_3d_audio_visualizer_ive_just/)
-* [Discussion: GetOutputData and GetSpectrumData, what represent the values returned?](http://answers.unity3d.com/questions/157940/getoutputdata-and-getspectrumdata-they-represent-t.html)
-* [Video: Unity, Audio Vizualization, Spectrum Tutorial](https://www.youtube.com/watch?v=ELLANEFw5B8) [15m 50s]
-* [Another visualizer on Github](https://github.com/pctroll/unity3d-music-visualizer/blob/master/Assets/Scripts/Visualize.cs)
+* [Hypnotoad09's original Reddit post](https://www.reddit.com/r/Unity3D/comments/35dm0n/check_out_this_cool_3d_audio_visualizer_ive_just/)
+
+## Future Enhancements
+
+*
