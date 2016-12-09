@@ -8,7 +8,8 @@ namespace Assets.Scripts
         #region Public Fields
         public SpectrumController prefab;
         public int maxHeight;
-        public int maxItems; 
+        public PatternType type;
+        public int size = 3000; //Radius for Circle, maxPoints for Lorenz
         #endregion
 
         #region Properties
@@ -18,18 +19,15 @@ namespace Assets.Scripts
         #region Event Functions
         void Start()
         {
-            //see https://en.wikipedia.org/wiki/Lorenz_system
-            Lorenz lorenz = new Lorenz(maxItems);
-            lorenz.SetState(1f, 1f, 1f);
-            lorenz.SetParameters(10, 28, 8/3, 0.01f);
-            lorenz.AddPoints();
-
+            //Create pattern
+            Pattern pattern = CreatePattern(type);
+            
             //Create top folder for each prefab
-            folder = new GameObject("Lorenz Prefabs (" + maxItems + ")");
+            folder = new GameObject(type.ToString() + " Prefabs (" + pattern.Count + ")");
             folder.transform.SetParent(transform);
 
             //Generate a prefab facing up and down at each point
-            foreach (Vector3 point in lorenz)
+            foreach (Vector3 point in pattern)
             {
                 GeneratePrefab(point, maxHeight);
                 GeneratePrefab(point, -1 * maxHeight);
@@ -39,10 +37,41 @@ namespace Assets.Scripts
 
         #region Methods
         /// <summary>
+        /// Creates pattern of a specified type
+        /// Default is a Lorenz system
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private Pattern CreatePattern(PatternType type)
+        {
+            switch (type)
+            {
+                case PatternType.Circle:
+                    {
+                        int radius = (size <= 40) ? size : 40;
+                        Circle circle = new Circle(radius);
+                        circle.AddPoints();
+                        return circle;
+                    }
+                case PatternType.Lorenz:
+                    goto default; //can't fall through in C# Mono
+                default:
+                    {
+                        //see https://en.wikipedia.org/wiki/Lorenz_system
+                        Lorenz lorenz = new Lorenz(size);
+                        lorenz.SetState(1f, 1f, 1f);
+                        lorenz.SetParameters(10, 28, 8 / 3, 0.01f);
+                        lorenz.AddPoints();
+                        return lorenz;
+                    }
+            }
+        }
+
+        /// <summary>
         /// Called for each vector created in Start() to create a new prefab object in that location
         /// </summary>
         /// <param name="vector"></param>
-        void GeneratePrefab(Vector3 vector, int height)
+        private void GeneratePrefab(Vector3 vector, int height)
         {
             var prefab = (SpectrumController)Instantiate(this.prefab, vector, this.prefab.transform.rotation);
             prefab.maxHeight = height;

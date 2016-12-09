@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.Patterns
@@ -7,15 +7,9 @@ namespace Assets.Patterns
     /// Creates an array of vectors in the shape of a Lorenz system
     /// see https://en.wikipedia.org/wiki/Lorenz_system
     /// </summary>
-    public class Lorenz : IEnumerable
+    public class Lorenz : Pattern
     {
-        #region Private Properties
-        public Vector3[] points { get; set; }
-        public int Count
-        {
-            get { return points.Length; }
-        }
-
+        #region Properties
         //starting system state
         private float x { get; set; }
         private float y { get; set; }
@@ -29,9 +23,8 @@ namespace Assets.Patterns
         #endregion
 
         #region Constructor 
-        public Lorenz(int numPoints)
+        public Lorenz(int numPoints) : base(numPoints)
         {
-            points = new Vector3[numPoints];
         }
         #endregion
 
@@ -67,11 +60,11 @@ namespace Assets.Patterns
         /// <summary>
         /// Adds a vector to the points array for each coordinate
         /// </summary>
-        public void AddPoints()
+        public override void AddPoints()
         {
             float dx = 0, dy = 0, dz = 0;
 
-            for (int i = 0; i < points.Length; i++)
+            for (int i = 0; i < Size; i++)
             {
                 dx = (sigma * (y - x)) * dt;
                 dy = (x * (rho - z) - y) * dt;
@@ -81,32 +74,9 @@ namespace Assets.Patterns
                 y = y + dy;
                 z = z + dz;
 
-                points[i] = new Vector3(x, y, z);
+                Points.Add(new Vector3(x, y, z));
             }
         }
-
-        /// <summary>
-        /// Enumerate though Vector3[] points
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator GetEnumerator()
-        {
-            return points.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Indexer into the array of points
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        public Vector3 this[int i]
-        {
-            get
-            {
-                return points[i];
-            }
-        }
-
         #endregion
     }
 }
