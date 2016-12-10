@@ -3,9 +3,9 @@
 namespace Assets.Scripts
 {
     /// <summary>
-    /// Behaviors for each prefab: update size and color to music
+    /// Behaviors for each prefab like update it's size and color to audio
     /// </summary>
-    public class SpectrumController : MonoBehaviour
+    public class PrefabBehaviour : MonoBehaviour
     {
         #region Public Fields
         public float responseSpeed;
@@ -23,6 +23,9 @@ namespace Assets.Scripts
         #endregion
 
         #region Event Functions
+		/// <summary>
+		/// Saves starting state to properties
+		/// </summary>
         private void Start()
         {
             startScale = transform.localScale;
@@ -30,11 +33,13 @@ namespace Assets.Scripts
             startMesh = GetComponent<MeshFilter>();
         }
 
+		/// <summary>
+		/// Updates prefab's height or size as well as color
+		/// </summary>
         private void Update()
         {
-            //scale current spectrum window and given maxHeight of prefab
+            //scale current spectrum window value, given the maxHeight of prefab
             var desiredScale = 1 + AudioManager.GetSpectrumValue(spectrumIndex) * maxHeight;
-            //var desiredScale = AudioManager.GetSpectrumValue(spectrumIndex) / AudioManager.max * maxHeight;
 
             if (startMesh.name.Contains("Cylinder"))
             {
@@ -54,6 +59,19 @@ namespace Assets.Scripts
         #endregion
 
         #region Methods
+		/// <summary>
+		/// Called in Visualizer/GeneratePrefab()
+		/// </summary>
+		internal void SetupPrefab(int height, float length){
+			maxHeight = height;
+
+			//set location in audio spectrum window based on vector magnitude
+			spectrumIndex = (int)(Mathf.Round(length));
+
+			//set starting color based on vector magnitude
+			GetComponent<Renderer>().material.color = new Color(0, length % 1, length % 1, 0.5f);
+		}
+
         /// <summary>
         /// Update height for cubes in z dimension
         /// </summary>

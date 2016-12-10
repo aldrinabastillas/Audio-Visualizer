@@ -3,26 +3,33 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+	[RequireComponent(typeof(AudioSource))]
     public class Visualizer : MonoBehaviour
     {
         #region Public Fields
-        public SpectrumController prefab;
+        public PrefabBehaviour prefab;
         public int maxHeight;
         public PatternType type;
-        public int size = 3000; //Radius for Circle, maxPoints for Lorenz
+		public int size; //Used as radius for Circle and maxPoints for Lorenz
         #endregion
 
         #region Properties
+		/// <summary>
+		/// Folder to organize prefabs under
+		/// </summary>
         private GameObject folder { get; set; }
         #endregion
 
         #region Event Functions
+		/// <summary>
+		/// Creates prefabs in the given pattern
+		/// </summary>
         void Start()
         {
-            //Create pattern
-            Pattern pattern = CreatePattern(type);
+			//Create pattern
+            Pattern pattern = CreatePattern(type); //type selected from dropdown in Unity edtior
             
-            //Create top folder for each prefab
+            //Create folder to file each prefab in
             folder = new GameObject(type.ToString() + " Prefabs (" + pattern.Count + ")");
             folder.transform.SetParent(transform);
 
@@ -37,7 +44,7 @@ namespace Assets.Scripts
 
         #region Methods
         /// <summary>
-        /// Creates pattern of a specified type
+        /// Creates pattern of points for a specified PatternType.
         /// Default is a Lorenz system
         /// </summary>
         /// <param name="type"></param>
@@ -73,19 +80,10 @@ namespace Assets.Scripts
         /// <param name="vector"></param>
         private void GeneratePrefab(Vector3 vector, int height)
         {
-            var prefab = (SpectrumController)Instantiate(this.prefab, vector, this.prefab.transform.rotation);
-            prefab.maxHeight = height;
+            var prefab = (PrefabBehaviour)Instantiate(this.prefab, vector, this.prefab.transform.rotation);
 
-            //set location in audio spectrum window based on vector magnitude
-            var length = vector.magnitude;
-            prefab.spectrumIndex = (int)(Mathf.Round(length));
-
-            //prefab.spectrumIndex = count;
-            //prefab.spectrumIndex = (int)(Mathf.Round(dist/(float)radius * AudioManager.SampleCount));
-            //prefab.spectrumIndex = (int)Vector3.Distance(new Vector3(.01f, 1, 1.05f), vector);
-
-            //set starting color based on vector magnitude
-            prefab.GetComponent<Renderer>().material.color = new Color(0, length % 1, length % 1, 0.5f);
+			//sets up height, location, and color
+			prefab.SetupPrefab (height, vector.magnitude);
             
             //file new prefab in folder
             prefab.transform.SetParent(folder.transform);
