@@ -31,6 +31,7 @@ sysinfo.txt
 
 ProjectSettings/ProjectVersion.txt
 
-# Folder for executable data
+#Compiled Build output
 AudioVisualizer_Data/
 AudioVisualizer.app/
+AudioVisualizer.exe

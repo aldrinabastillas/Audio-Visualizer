@@ -64,5 +64,4 @@ namespace Assets.Scripts
         }
         #endregion
     }
-
 }

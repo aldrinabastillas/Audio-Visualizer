@@ -21,5 +21,3 @@ namespace Assets.Scripts
         #endregion
     }
 }
-
-

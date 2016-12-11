@@ -40,6 +40,17 @@ namespace Assets.Scripts
                 GeneratePrefab(point, -1 * maxHeight);
             }
         }
+
+        /// <summary>
+        /// Close application if escape key is pressed
+        /// </summary>
+        void Update()
+        {
+            if (Input.GetKey("escape"))
+            {
+                Application.Quit();
+            }
+        }
         #endregion
 
         #region Methods
@@ -91,4 +102,3 @@ namespace Assets.Scripts
         #endregion 
     }
 }
-
