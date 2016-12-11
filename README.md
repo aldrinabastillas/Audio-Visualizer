@@ -3,6 +3,10 @@
 ## Overview
 
 
+## Changes
+
+
+
 ## Assets
 ### Scripts
 * [Visualizer.cs](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Scripts/Visualizer.cs):
@@ -15,6 +19,7 @@ Samples are taken using a [Hamming Window](https://en.wikipedia.org/wiki/Window_
 
 * [CameraRotation.cs](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Scripts/CameraRotation.cs):
 
+
 ### Patterns
 * [Pattern.cs](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Patterns/Pattern.cs):
 Abstract base class that others below derive from.
@@ -26,7 +31,7 @@ Implements a [Lorenz system](https://en.wikipedia.org/wiki/Lorenz_system).
 Pattern used in Hypnotoad09's original project.
 
 
-### Other Assets
+### Materials
 * [DSG.mat](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Materials/DeepSpaceGreen/DSG.mat):
 Material used for the space skybox background.  From the [Unity Asset Store](https://www.assetstore.unity3d.com/en/#!/content/25142).
 * [Silver.mat](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/Assets/Materials/PBS%20Metallic/Silver.mat):
@@ -34,13 +39,12 @@ Material used for the cylinders. From the [Unity Asset Store](https://www.assets
 
 
 ### Executables
-Executable files that allow you to change resolution and frame rate.
+Executable files to download, which allow you to change resolution and frame rate.
 * [AudioVisualizer.exe](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/AudioVisualizer.exe):
 For Windows
 
 * [AudioVisualizer.app.zip](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/AudioVisualizer.app.zip):
 For macOS.  Must be zipped, as Github adds the package as a folder instead of one .app file.
-
 
 
 
@@ -61,5 +65,5 @@ sample the song's audio data.
 ## Future Enhancements
 * Add sliders to UI that changes visualizer's parameters as seen in this [project](https://github.com/bellatesla/AudioVisualizer-Basic).
 * Add ability to change audio file in UI.
-* Listen to any audio coming out of speakers.  This is much harder, as it would require writing a [plugin](https://docs.unity3d.com/Manual/Plugins.html) 
+* Listen to any audio coming out of speakers.  This is much harder to implement, as it would require writing a [plugin](https://docs.unity3d.com/Manual/Plugins.html) 
   to get the audio directly from the device.
