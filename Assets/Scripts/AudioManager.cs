@@ -9,7 +9,7 @@ namespace Assets.Scripts
     [RequireComponent(typeof(AudioSource))]
     public class AudioManager : MonoBehaviour
     {
-        #region Public Fields
+        #region Fields
 		/// <summary>
 		/// The size of the spectrum window.
 		/// Example sampling rates: 512, 1024, or 2048 samples/second.

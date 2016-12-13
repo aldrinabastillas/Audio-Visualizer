@@ -11,6 +11,9 @@ namespace Assets.Patterns
         #endregion
 
         #region Methods
+        /// <summary>
+        // Adds a vector to the Points list (in the base class) for each coordinate
+        /// </summary>
         public override void AddPoints()
         {
             int radius = this.Size;

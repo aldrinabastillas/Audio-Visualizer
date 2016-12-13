@@ -28,7 +28,7 @@ namespace Assets.Patterns
         }
         #endregion
 
-        #region Public Builder Methods
+        #region Builder Methods
         /// <summary>
         /// Coordinates for the starting state
         /// </summary>
@@ -58,7 +58,7 @@ namespace Assets.Patterns
         }
 
         /// <summary>
-        /// Adds a vector to the points array for each coordinate
+        /// Adds a vector to the Points list (from the base class) for each coordinate
         /// </summary>
         public override void AddPoints()
         {

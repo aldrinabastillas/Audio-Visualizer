@@ -7,19 +7,16 @@ namespace Assets.Scripts
     /// </summary>
     public class PrefabBehaviour : MonoBehaviour
     {
-        #region Public Fields
-        public float responseSpeed;
-        #endregion
-
-        #region Private Fields
+        #region Fields
         private Vector3 startScale;
+        private Color startColor;
+        private MeshFilter startMesh;
         #endregion
 
         #region Properties
+        internal float responseSpeed;
         internal float maxHeight { get; set; }
         internal int spectrumIndex { get; set; }
-        private Color startColor { get; set; }
-        private MeshFilter startMesh { get; set; }
         #endregion
 
         #region Event Functions
@@ -62,7 +59,7 @@ namespace Assets.Scripts
 		/// <summary>
 		/// Called in Visualizer/GeneratePrefab()
 		/// </summary>
-		internal void SetupPrefab(int height, float length){
+		internal void SetupPrefab(int height, float length, float responseSpeed){
 			maxHeight = height;
 
 			//set location in audio spectrum window based on vector magnitude
@@ -70,6 +67,9 @@ namespace Assets.Scripts
 
 			//set starting color based on vector magnitude
 			GetComponent<Renderer>().material.color = new Color(0, length % 1, length % 1, 0.5f);
+
+            //set latency for color and height updates
+            this.responseSpeed = responseSpeed;
 		}
 
         /// <summary>

@@ -6,11 +6,12 @@ namespace Assets.Scripts
 	[RequireComponent(typeof(AudioSource))]
     public class Visualizer : MonoBehaviour
     {
-        #region Public Fields
+        #region Fields
         public PrefabBehaviour prefab;
-        public int maxHeight;
         public PatternType type;
+        public int maxHeight;
 		public int size; //Used as radius for Circle and maxPoints for Lorenz
+        public float responseSpeed;
         #endregion
 
         #region Properties
@@ -27,7 +28,7 @@ namespace Assets.Scripts
         void Start()
         {
 			//Create pattern
-            Pattern pattern = CreatePattern(type); //type selected from dropdown in Unity edtior
+            Pattern pattern = CreatePattern(type); //type selected from dropdown in Unity editor
             
             //Create folder to file each prefab in
             folder = new GameObject(type.ToString() + " Prefabs (" + pattern.Count + ")");
@@ -72,13 +73,13 @@ namespace Assets.Scripts
                         return circle;
                     }
                 case PatternType.Lorenz:
-                    goto default; //can't fall through in C# Mono
+                    goto default; //can't fall through cases in Mono/Unity C#
                 default:
                     {
                         //see https://en.wikipedia.org/wiki/Lorenz_system
                         Lorenz lorenz = new Lorenz(size);
-                        lorenz.SetState(1f, 1f, 1f);
-                        lorenz.SetParameters(10, 28, 8 / 3, 0.01f);
+                        lorenz.SetState(1f, 1f, 1f); //x, y, z
+                        lorenz.SetParameters(10, 28, 8 / 3, 0.01f); //sigma, rho, beta, dTime
                         lorenz.AddPoints();
                         return lorenz;
                     }
@@ -94,7 +95,7 @@ namespace Assets.Scripts
             var prefab = (PrefabBehaviour)Instantiate(this.prefab, vector, this.prefab.transform.rotation);
 
 			//sets up height, location, and color
-			prefab.SetupPrefab (height, vector.magnitude);
+			prefab.SetupPrefab(height, vector.magnitude, responseSpeed);
             
             //file new prefab in folder
             prefab.transform.SetParent(folder.transform);
