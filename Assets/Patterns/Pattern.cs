@@ -15,8 +15,8 @@ namespace Assets.Patterns
         /// <summary>
         /// Points of where prefabs should go
         /// </summary>
-        public List<Vector3> Points { get; set; }
-        public int Size { get; private set; }
+        public List<Vector3> Points { get; protected set; }
+        public int Size { get; protected set; }
 
         /// <summary>
         /// Count of points in pattern
@@ -28,6 +28,10 @@ namespace Assets.Patterns
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Chained constructor that class that parameterless constructor below
+        /// </summary>
+        /// <param name="size"></param>
         public Pattern(int size) : this()
         {
             Size = size;

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Patterns
 {
@@ -11,15 +10,15 @@ namespace Assets.Patterns
     {
         #region Properties
         //starting system state
-        private float x { get; set; }
-        private float y { get; set; }
-        private float z { get; set; }
+        public float x { get; private set; }
+        public float y { get; private set; }
+        public float z { get; private set; }
 
         //system parameters
-        private float sigma { get; set; }
-        private float rho { get; set; }
-        private float beta { get; set; }
-        private float dt { get; set; }
+        public float sigma { get; private set; }
+        public float rho { get; private set; }
+        public float beta { get; private set; }
+        public float dt { get; private set; }
         #endregion
 
         #region Constructor 

@@ -27,8 +27,8 @@ namespace Assets.Scripts
 		/// </summary>
         void Start()
         {
-			//Create pattern
-            Pattern pattern = CreatePattern(type); //type selected from dropdown in Unity editor
+			//Create Pattern using PatternFactory class
+            Pattern pattern = PatternFactory.CreatePattern(type, size); //type selected from dropdown in Unity editor
             
             //Create folder to file each prefab in
             folder = new GameObject(type.ToString() + " Prefabs (" + pattern.Count + ")");
@@ -55,37 +55,6 @@ namespace Assets.Scripts
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Creates pattern of points for a specified PatternType.
-        /// Default is a Lorenz system
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private Pattern CreatePattern(PatternType type)
-        {
-            switch (type)
-            {
-                case PatternType.Circle:
-                    {
-                        int radius = (size <= 40) ? size : 40;
-                        Circle circle = new Circle(radius);
-                        circle.AddPoints();
-                        return circle;
-                    }
-                case PatternType.Lorenz:
-                    goto default; //can't fall through cases in Mono/Unity C#
-                default:
-                    {
-                        //see https://en.wikipedia.org/wiki/Lorenz_system
-                        Lorenz lorenz = new Lorenz(size);
-                        lorenz.SetState(1f, 1f, 1f); //x, y, z
-                        lorenz.SetParameters(10, 28, 8 / 3, 0.01f); //sigma, rho, beta, dTime
-                        lorenz.AddPoints();
-                        return lorenz;
-                    }
-            }
-        }
-
         /// <summary>
         /// Called for each vector created in Start() to create a new prefab object in that location
         /// </summary>

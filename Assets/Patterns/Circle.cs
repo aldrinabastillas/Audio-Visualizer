@@ -4,9 +4,15 @@ namespace Assets.Patterns
 {
     public class Circle : Pattern
     {
+        #region Properties
+        private int MaxRadius = 40;
+        #endregion
+
         #region Constructor
-        public Circle(int radius) : base(radius)
+        public Circle(int radius) : base()
         {
+            Size = (radius <= MaxRadius) ? radius : MaxRadius;
+            AddPoints();
         }
         #endregion
 

@@ -66,7 +66,7 @@ Material used for the cylinders. From the [Unity Asset Store](https://www.assets
 
 
 #### Executables
-Executable files to download, which allow you to change resolution and frame rate.
+Files to download that allow you to change the visualization's resolution and frame rate.
 * [AudioVisualizer.exe.zip](https://github.com/aldrinabastillas/Audio-Visualizer/blob/master/AudioVisualizer.exe.zip):
 For Windows
 
